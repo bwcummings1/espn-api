@@ -17,13 +17,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={inter.className} data-pc-preset="preset-1" data-pc-sidebar-theme="light" data-pc-sidebar-caption="true" data-pc-direction="ltr" data-pc-theme="light">
         <div className="flex h-screen">
           <Sidebar />
           <main className="flex-1 p-4 overflow-auto">
-            <div className="grid grid-cols-12 gap-4">
-              {children}
-            </div>
+            {children}
           </main>
         </div>
       </body>
