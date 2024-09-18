@@ -1,0 +1,20 @@
+{
+  "name": "fantasy-football-dashboard",
+  "version": "1.0.0",
+  "scripts": {
+    "start:backend": "python app.py",
+    "start:frontend": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "description": "![](https://github.com/cwendt94/espn-api/workflows/Espn%20API/badge.svg)\r ![](https://github.com/cwendt94/espn-api/workflows/Espn%20API%20Integration%20Test/badge.svg) [![codecov](https://codecov.io/gh/cwendt94/espn-api/branch/master/graphs/badge.svg)](https://codecov.io/gh/cwendt94/espn-api) [![Join the chat at https://gitter.im/ff-espn-api/community](https://badges.gitter.im/ff-espn-api/community.svg)](https://gitter.im/ff-espn-api/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![PyPI version](https://badge.fury.io/py/espn-api.svg)](https://badge.fury.io/py/espn-api)<a target=\"_blank\" href=\"https://www.python.org/downloads/\" title=\"Python version\"><img src=\"https://img.shields.io/badge/python-%3E=_3.8-teal.svg\"></a>",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
