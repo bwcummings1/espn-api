@@ -13,6 +13,7 @@ const Sidebar = () => {
             <li><Link href="/the-league">Overview</Link></li>
             <li><Link href="/the-league/standings">Standings</Link></li>
             <li><Link href="/the-league/schedule">Schedule</Link></li>
+            <li><Link href="/the-league/stats">Statistics</Link></li>
           </ul>
         </li>
         <li className="mb-4">

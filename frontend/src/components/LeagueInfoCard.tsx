@@ -9,38 +9,41 @@ export default function LeagueInfoCard() {
 
   useEffect(() => {
     fetchLeagueInfo()
-      .then(setLeagueInfo)
+      .then(data => {
+        console.log('Received league info:', data);
+        setLeagueInfo(data);
+      })
       .catch(err => {
         console.error('Error fetching league info:', err);
-        setError('Failed to load league info');
+        setError('Failed to load league info: ' + err.message);
       });
   }, []);
 
   if (error) {
     return (
-      <div className="bg-white shadow rounded-lg p-4">
-        <h2 className="text-xl font-bold mb-4">League Info</h2>
-        <p className="text-red-500">{error}</p>
+      <div className="bg-slate-800 text-slate-100 shadow rounded-lg p-4">
+        <h2 className="text-xl font-bold mb-4 font-header">League Info</h2>
+        <p className="text-red-400 font-body">{error}</p>
       </div>
     );
   }
 
   if (!leagueInfo) {
     return (
-      <div className="bg-white shadow rounded-lg p-4">
-        <h2 className="text-xl font-bold mb-4">League Info</h2>
-        <p>Loading...</p>
+      <div className="bg-slate-800 text-slate-100 shadow rounded-lg p-4">
+        <h2 className="text-xl font-bold mb-4 font-header">League Info</h2>
+        <p className="font-body">Loading league info...</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-white shadow rounded-lg p-4">
-      <h2 className="text-xl font-bold mb-4">League Info</h2>
-      <div className="space-y-2">
-        <p><span className="font-semibold">League Name:</span> {leagueInfo.name}</p>
-        <p><span className="font-semibold">Number of Teams:</span> {leagueInfo.num_teams}</p>
-        <p><span className="font-semibold">Current Week:</span> {leagueInfo.current_week}</p>
+    <div className="bg-slate-800 text-slate-100 shadow rounded-lg p-4">
+      <h2 className="text-xl font-bold mb-4 font-header">League Info</h2>
+      <div className="space-y-2 font-body">
+        <p><span className="font-semibold text-slate-300">League Name:</span> {leagueInfo.name}</p>
+        <p><span className="font-semibold text-slate-300">Number of Teams:</span> {leagueInfo.num_teams}</p>
+        <p><span className="font-semibold text-slate-300">Current Week:</span> {leagueInfo.current_week}</p>
       </div>
     </div>
   );

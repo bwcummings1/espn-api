@@ -1,113 +1,60 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000/api'
+import axios from 'axios';
+import { setCache, getCache, clearCache } from '@/utils/cache';
 
-export interface LeagueInfo {
-  name: string;
-  num_teams: number;
-  current_week: number;
-}
+const LEAGUE_ID = 95050;
+const BASE_URL = 'http://localhost:5000/api';  // Adjust this to your backend URL
 
-export interface Team {
-  id: number;
-  name: string;
-  owners: string[];
-  wins: number;
-  losses: number;
-  ties: number;
-  points_for: number;
-  points_against: number;
-}
-
-export interface Standing extends Team {
-  rank: number;
-}
-
-export interface Player {
-  name: string;
-  position: string;
-  pro_team: string;
-  projected_points: number;
-  actual_points: number;
-}
-
-export interface Matchup {
-  week: number;
-  home_team: {
-    id: number;
-    name: string;
-    score: number;
-  };
-  away_team: {
-    id: number;
-    name: string;
-    score: number;
-  };
-}
-
-export interface ActivityAction {
-  team: string | null;
-  action: string;
-  player: string | null;
-  bid_amount: number | null;
-}
-
-export interface Activity {
-  id: number;
-  date: string;
-  actions: ActivityAction[];
-}
-
-export async function fetchLeagueInfo(): Promise<LeagueInfo> {
-  console.log('Fetching from URL:', `${API_BASE_URL}/league-info`);
-  try {
-    const response = await fetch(`${API_BASE_URL}/league-info`)
-    if (!response.ok) {
-      console.error('Failed to fetch league info. Status:', response.status);
-      console.error('Response:', await response.text());
-      throw new Error(`Failed to fetch league info: ${response.status}`);
-    }
-    return response.json()
-  } catch (error) {
-    console.error('Error in fetchLeagueInfo:', error);
-    throw error;
+export const fetchLeagueInfo = async (forceRefresh = false) => {
+  const cacheKey = `league_info_${LEAGUE_ID}`;
+  if (!forceRefresh) {
+    const cachedData = getCache<any>(cacheKey);
+    if (cachedData) return cachedData;
   }
-}
 
-export async function fetchTeams(): Promise<Team[]> {
-  const response = await fetch(`${API_BASE_URL}/teams`)
-  if (!response.ok) {
-    throw new Error('Failed to fetch teams')
-  }
-  return response.json()
-}
+  const response = await axios.get(`${BASE_URL}/league-info/${LEAGUE_ID}`);
+  setCache(cacheKey, response.data);
+  return response.data;
+};
 
-export async function fetchStandings(): Promise<Standing[]> {
-  const response = await fetch(`${API_BASE_URL}/standings`)
-  if (!response.ok) {
-    throw new Error('Failed to fetch standings')
+export const fetchTeams = async (forceRefresh = false) => {
+  const cacheKey = `teams_${LEAGUE_ID}`;
+  if (!forceRefresh) {
+    const cachedData = getCache<any>(cacheKey);
+    if (cachedData) return cachedData;
   }
-  return response.json()
-}
 
-export async function fetchTeamRoster(teamId: number): Promise<Player[]> {
-  const response = await fetch(`${API_BASE_URL}/team/${teamId}/roster`)
-  if (!response.ok) {
-    throw new Error('Failed to fetch team roster')
-  }
-  return response.json()
-}
+  const response = await axios.get(`${BASE_URL}/teams/${LEAGUE_ID}`);
+  setCache(cacheKey, response.data);
+  return response.data;
+};
 
-export async function fetchMatchups(): Promise<Matchup[]> {
-  const response = await fetch(`${API_BASE_URL}/matchups`)
-  if (!response.ok) {
-    throw new Error('Failed to fetch matchups')
+export const fetchTopPerformers = async (forceRefresh = false) => {
+  const cacheKey = `top_performers_${LEAGUE_ID}`;
+  if (!forceRefresh) {
+    const cachedData = getCache<any>(cacheKey);
+    if (cachedData) return cachedData;
   }
-  return response.json()
-}
 
-export async function fetchRecentActivity(): Promise<Activity[]> {
-  const response = await fetch(`${API_BASE_URL}/recent-activity`)
-  if (!response.ok) {
-    throw new Error('Failed to fetch recent activity')
+  const response = await axios.get(`${BASE_URL}/top-performers/${LEAGUE_ID}`);
+  setCache(cacheKey, response.data);
+  return response.data;
+};
+
+export const fetchTeamScores = async (forceRefresh = false) => {
+  const cacheKey = `team_scores_${LEAGUE_ID}`;
+  if (!forceRefresh) {
+    const cachedData = getCache<any>(cacheKey);
+    if (cachedData) return cachedData;
   }
-  return response.json()
-}
+
+  const response = await axios.get(`${BASE_URL}/team-scores/${LEAGUE_ID}`);
+  setCache(cacheKey, response.data);
+  return response.data;
+};
+
+export const refreshAllData = async () => {
+  await fetchLeagueInfo(true);
+  await fetchTeams(true);
+  await fetchTopPerformers(true);
+  await fetchTeamScores(true);
+};

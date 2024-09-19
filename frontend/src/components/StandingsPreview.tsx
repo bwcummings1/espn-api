@@ -18,51 +18,45 @@ export default function StandingsPreview() {
 
   if (error) {
     return (
-      <div className="bg-white shadow rounded-lg p-4">
-        <h2 className="text-xl font-bold mb-4">League Standings</h2>
-        <p className="text-red-500">{error}</p>
+      <div className="bg-slate-800 text-slate-100 shadow rounded-lg p-4">
+        <h2 className="text-xl font-bold mb-4 font-header">League Standings</h2>
+        <p className="text-red-400 font-body">{error}</p>
       </div>
     );
   }
 
   if (standings.length === 0) {
     return (
-      <div className="bg-slate-800 shadow rounded-lg p-4">
-        <h2 className="text-xl font-bold mb-4">League Standings</h2>
-        <p>Loading...</p>
+      <div className="bg-slate-800 text-slate-100 shadow rounded-lg p-4">
+        <h2 className="text-xl font-bold mb-4 font-header">League Standings</h2>
+        <p className="font-body">Loading...</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-slate-600 shadow rounded-lg p-4">
-      <h2 className="text-xl font-bold mb-4">League Standings</h2>
-      <div className="overflow-x-auto">
-        <table className="min-w-full">
-          <thead>
-            <tr className="bg-slate-800">
-              <th className="px-4 py-2 text-left">Rank</th>
-              <th className="px-4 py-2 text-left">Team</th>
-              <th className="px-4 py-2 text-center">W</th>
-              <th className="px-4 py-2 text-center">L</th>
-              <th className="px-4 py-2 text-center">T</th>
-              <th className="px-4 py-2 text-center">PF</th>
+    <div className="bg-slate-800 text-slate-100 shadow rounded-lg p-4">
+      <h2 className="text-xl font-bold mb-4 font-header">League Standings</h2>
+      <table className="w-full">
+        <thead>
+          <tr className="font-header text-slate-300">
+            <th className="text-left">Rank</th>
+            <th className="text-left">Team</th>
+            <th className="text-left">Record</th>
+            <th className="text-left">Points For</th>
+          </tr>
+        </thead>
+        <tbody className="font-body">
+          {standings.map((team) => (
+            <tr key={team.id}>
+              <td>{team.rank}</td>
+              <td>{team.name}</td>
+              <td>{`${team.wins}-${team.losses}${team.ties ? `-${team.ties}` : ''}`}</td>
+              <td>{team.points_for.toFixed(2)}</td>
             </tr>
-          </thead>
-          <tbody>
-            {standings.slice(0, 12).map((team: Standing) => (
-              <tr key={team.id} className="border-b">
-                <td className="px-4 py-2">{team.rank}</td>
-                <td className="px-4 py-2">{team.name}</td>
-                <td className="px-4 py-2 text-center">{team.wins}</td>
-                <td className="px-4 py-2 text-center">{team.losses}</td>
-                <td className="px-4 py-2 text-center">{team.ties}</td>
-                <td className="px-4 py-2 text-center">{team.points_for.toFixed(2)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

@@ -12,6 +12,10 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        'body': ['"stratum-1-web"', 'sans-serif'],
+        'header': ['prohibition', 'sans-serif'],
+      },
     },
   },
   plugins: [],
